@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: toolbox
+spec:
+  containers:
+    - name: toolbox
+      image: praqma/network-multitool
+      command: ["/bin/sh"]
+      args: ["-c", "sleep infinity"]
+      # Praqma's network-multitool image includes curl and nc among other network tools
