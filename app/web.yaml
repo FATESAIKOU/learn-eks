@@ -24,7 +24,7 @@ spec:
     blueGreen:
       activeService: web-service-active
       previewService: web-service-preview
-      autoPromotionEnabled: false
+      autoPromotionEnabled: true
       scaleDownDelaySeconds: 30
       prePromotionAnalysis:
         templates:
