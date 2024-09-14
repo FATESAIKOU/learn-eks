@@ -9,28 +9,19 @@ $ eksctl create cluster -f cluster/cluster.yaml
 ### Controller install
 ```shell=
 $ controller/install-traefik.sh
+$ controller/install-argo-rollout.sh
 ```
 
-### Create infra resources
+### Create k8s resource
 ```shell=
-$ kubectl create -f infra-instance/ingress.yaml
-```
-
-### Create app resources
-```shell=
-$ kubectl create -f app/web.yaml
-```
-
-### Create ops resources
-```shell=
-$ kubectl create -f op-tool/toolbox.yaml
+$ ... # ingress, app, toolbox(ops)
 ```
 
 ## Delete
 ```shell=
-$ kubectl delete -f app/web.yaml
-$ kubectl delete -f op-tool/toolbox.yaml
-$ kubectl delete -f infra-instance/ingress.yaml
-$ controller/uninstall-traefik.sh
+$ ... # app, ops-tools, ingress, argo-rollout-controller, ingress-controller 
+$ kubectl delete daemonset aws-node -n kube-system
+$ kubectl delete daemonset kube-proxy -n kube-system
+$ kubectl delete deployment coredns -n kube-system
 $ eksctl delete cluster -f cluster/cluster.yaml
 ```
