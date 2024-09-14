@@ -1,9 +1,11 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
-  name: web-server
+  name: web-server-rollout
+  namespace: default
 spec:
   replicas: 1
+  revisionHistoryLimit: 2
   selector:
     matchLabels:
       app: web-server
@@ -18,11 +20,23 @@ spec:
           command: ["python3", "-m", "http.server", "8080", "--bind", "0.0.0.0"]
           ports:
             - containerPort: 8080
+  strategy:
+    blueGreen:
+      activeService: web-service-active
+      previewService: web-service-preview
+      autoPromotionEnabled: false
+      scaleDownDelaySeconds: 30
+      prePromotionAnalysis:
+        templates:
+          - templateName: http-status-analysis
+        args:
+          - name: service-name
+            value: web-service-preview.default.svc.cluster.local
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: web-service
+  name: web-service-active
 spec:
   selector:
     app: web-server
@@ -31,3 +45,33 @@ spec:
       port: 80
       targetPort: 8080
   type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service-preview
+spec:
+  selector:
+    app: web-server
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: ClusterIP
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: http-status-analysis
+  namespace: default
+spec:
+  metrics:
+    - name: http-check
+      interval: 1m
+      count: 3
+      successCondition: "result == 200"
+      failureCondition: "result != 200"
+      provider:
+        web:
+          url: http://web-service-preview.default.svc.cluster.local/
+          timeoutSeconds: 10
