@@ -25,3 +25,11 @@ $ kubectl delete daemonset kube-proxy -n kube-system
 $ kubectl delete deployment coredns -n kube-system
 $ eksctl delete cluster -f cluster/cluster.yaml
 ```
+
+## Delete
+
+```shell=
+# Delete all daementset
+# Delete all deployment
+$ eksctl delete cluster -f cluster/cluster.yaml
+```
