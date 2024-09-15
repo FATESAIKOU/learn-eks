@@ -1,11 +1,13 @@
-# Initialization for fluxCD
+# FluxCD commands
 
-## Install prerequisite
+## Initialization for fluxCD
+
+### Install prerequisite
 ```shell
 $ kubectl apply -k fluxcd-prerequisites
 ```
 
-## Create github PAT secret
+### Create github PAT secret
 ```shell
 $ kubectl create secret generic flux-system \
   --namespace=flux-system \
@@ -13,7 +15,15 @@ $ kubectl create secret generic flux-system \
   --from-literal=password=$(~/.github/self)
 ```
 
-## Create flux infra resources
+### Create flux infra resources
 ```shell
 $ kubectl apply -k fluxcd-infra-resources
+```
+
+## Delete fluxCD
+
+```shell
+# Remove all finalizer of all kustomization & github repository
+$ kubectl delete -k fluxcd-infra-resources
+$ kubectl delete -k fluxcd-prerequisites
 ```
