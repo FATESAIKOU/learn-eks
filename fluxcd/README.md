@@ -1,7 +1,9 @@
 # Initialization for fluxCD
 
 ## Install prerequisite
-kubectl apply -k fluxcd-prerequisites
+```shell
+$ kubectl apply -k fluxcd-prerequisites
+```
 
 ## Create github PAT secret
 ```shell
@@ -12,4 +14,6 @@ $ kubectl create secret generic flux-system \
 ```
 
 ## Create flux infra resources
-kubectl apply -k fluxcd-infra-resources
+```shell
+$ kubectl apply -k fluxcd-infra-resources
+```
