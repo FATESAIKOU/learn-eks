@@ -1,21 +1,15 @@
 # Initialization for fluxCD
 
-## Link to github repo
+## Install prerequisite
+kubectl apply -k fluxcd-prerequisites
+
+## Create github PAT secret
 ```shell
-$ export GITHUB_TOKEN=$(~/.github/self)
-$ flux bootstrap github \
-  --token-auth \
-  --owner=$(git config --global user.name) \
-  --repository=$(basename -s .git $(git remote get-url origin)) \
-  --branch=master \
-  --path=fluxcd/root-resources \
-  --personal
+$ kubectl create secret generic flux-system \
+  --namespace=flux-system \
+  --from-literal=username=$(git config --global user.name) \
+  --from-literal=password=$(~/.github/self)
 ```
 
-## Create resources
-
-### GitRepository
-**Under Construction**
-
-### Kustomization
-**Under Construction**
+## Create flux infra resources
+kubectl apply -k fluxcd-infra-resources
