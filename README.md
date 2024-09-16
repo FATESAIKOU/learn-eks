@@ -6,6 +6,9 @@
 $ eksctl create cluster -f cluster/cluster.yaml
 ```
 
+### Install FluxCD
+- [ref](./fluxcd/README.md)
+
 ### Controller install
 ```shell=
 $ controller/install-traefik.sh

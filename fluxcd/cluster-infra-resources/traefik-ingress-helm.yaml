@@ -1,0 +1,36 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: traefik
+  namespace: flux-system
+spec:
+  url: https://helm.traefik.io/traefik
+  interval: 1h
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: default
+spec:
+  interval: 1m
+  chart:
+    spec:
+      chart: traefik
+      sourceRef:
+        kind: HelmRepository
+        name: traefik
+        namespace: flux-system
+      version: "30.0.0"
+  values:
+    ports:
+    web:
+      expose: true
+      exposedPort: 80
+      port: 8000
+      protocol: TCP
+    websecure:
+      expose: true
+      exposedPort: 443
+      port: 8443
+      protocol: TCP
