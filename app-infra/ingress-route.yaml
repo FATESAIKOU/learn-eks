@@ -12,7 +12,7 @@ spec:
       priority: 10
       services:
         - kind: Service
-          name: web-service
+          name: web-service-active
           port: 80
       middlewares:
         - name: strip-web-prefix
@@ -21,7 +21,7 @@ spec:
       priority: 10
       services:
         - kind: Service
-          name: web-service
+          name: web-service-active
           port: 80
 
 ---
