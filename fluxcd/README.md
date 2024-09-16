@@ -17,6 +17,11 @@ $ kubectl create secret generic flux-system \
 
 ### Create flux infra resources
 ```shell
+$ kubectl apply -k fluxcd-infra-resources
+```
+
+### Create kustomization for flux infra resources
+```shell
 $ kubectl apply -k fluxcd-base-kustomization
 ```
 
