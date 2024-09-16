@@ -1,32 +1,26 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: traefik
+  name: argo-rollouts
   namespace: flux-system
 spec:
-  url: https://helm.traefik.io/traefik
+  url: https://argoproj.github.io/argo-helm
   interval: 1h
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: traefik
+  name: argo-rollouts
   namespace: flux-system
 spec:
-  interval: 1m
+  interval: 5m
   chart:
     spec:
-      chart: traefik
+      chart: argo-rollouts
       sourceRef:
         kind: HelmRepository
-        name: traefik
+        name: argo-rollouts
         namespace: flux-system
-      version: "30.0.0"
+      version: "2.37.6"
   values:
-    ports:
-      web:
-        port: 8000
-        expose:
-          default: true
-        exposedPort: 80
-        protocol: TCP
+    installCRDs: true
