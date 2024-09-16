@@ -17,13 +17,14 @@ $ kubectl create secret generic flux-system \
 
 ### Create flux infra resources
 ```shell
-$ kubectl apply -k fluxcd-infra-resources
+$ kubectl apply -k fluxcd-base-kustomization
 ```
 
 ## Delete fluxCD
 
 ```shell
 # Remove all finalizer of all kustomization & github repository
+$ kubectl delete -k fluxcd-base-kustomization
 $ kubectl delete -k fluxcd-infra-resources
 $ kubectl delete -k fluxcd-prerequisites
 ```
